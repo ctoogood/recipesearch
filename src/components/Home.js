@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import bgImage from '../images/spoonOfCheese.jpg';
+import RecipeSearch from './RecipeSearch';
 
 
 const Main = styled.main`
@@ -43,6 +44,7 @@ const Main = styled.main`
 const Home = () => (
   <Main>
     <h1>A Pinch Of Salt...</h1>
+    <RecipeSearch />
   </Main>
 );
 
