@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'Third Storey';
+  src: local('Third Storey'), url(./fonts/thirdStorey.otf) format('OpenType');
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
