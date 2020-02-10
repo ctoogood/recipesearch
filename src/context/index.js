@@ -7,7 +7,6 @@ const RecipeProvider = (props) => {
   const appId = process.env.REACT_APP_RECIPE_APP_ID;
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [url, setUrl] = useState('');
 
@@ -35,18 +34,19 @@ const RecipeProvider = (props) => {
         console.log(e);
       }
     };
-    fetchData();
+    if (url !== '') {
+      fetchData();
+    }
   }, [url]);
 
 
   return (
     <RecipeContext.Provider value={{
       recipes,
+      loading,
       searchTerm,
-      query,
       handleSearchChange,
       handleFormSubmit,
-      setQuery,
     }}
     >
       {props.children}

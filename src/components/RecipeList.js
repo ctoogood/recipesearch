@@ -3,10 +3,10 @@ import { RecipeContext } from '../context/index';
 
 const RecipeList = () => {
   const appContext = useContext(RecipeContext);
-  const { recipes } = appContext;
+  const { recipes, loading } = appContext;
   return (
     <div>
-      {console.log(recipes)}
+
     </div>
   );
 };

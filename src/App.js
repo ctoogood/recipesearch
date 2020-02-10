@@ -7,10 +7,9 @@ import Home from './components/Home';
 
 const App = () => (
   <Router>
-    <Home />
     <main>
       <Switch>
-        <Route exact path="/" />
+        <Route exact path="/" component={Home} />
         <Route path="/query/:query" component={RecipeList} />
         <Route path="/:id" component={RecipeDetail} />
       </Switch>
