@@ -16,7 +16,7 @@ const RecipeProvider = (props) => {
 
 
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
+    setSearchTerm(e.target.value.toLowerCase());
   };
 
   const handleFormSubmit = (e) => {
@@ -31,6 +31,7 @@ const RecipeProvider = (props) => {
     } else {
       setUrl(`https://api.spoonacular.com/recipes/search?apiKey=${apiKey}&number=${pageSize}&query=${searchTerm}`);
     }
+    console.log(searchTerm);
   };
 
   useEffect(() => {
