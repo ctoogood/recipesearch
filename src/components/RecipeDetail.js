@@ -45,17 +45,16 @@ const Recipe = styled.section`
 
   li {
     color:#2D2D2D;
-    font-size:1.2rem;
+    font-size:1.5rem;
     margin:0.5rem;
 
   }
 
-  .recipe__image {
     img {
       width:100%;
+      height:100%;
       object-fit:cover;
       box-shadow:0px 3px 3px rgba(0,0,0,0.2);
-    }
   }
 
   .recipe__details {
@@ -88,9 +87,6 @@ const Recipe = styled.section`
 
   .recipe__method {
     margin-top:3rem;
-
-    li {
-    }
   }
 
 
