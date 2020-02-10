@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { RecipeContext } from '../context/index';
 
 const RecipeList = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  const appContext = useContext(RecipeContext);
+  const { recipes } = appContext;
+  return (
+    <div>
+      {console.log(recipes)}
+    </div>
+  );
 };
 
 export default RecipeList;

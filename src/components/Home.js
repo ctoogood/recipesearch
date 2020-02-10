@@ -7,6 +7,7 @@ import RecipeSearch from './RecipeSearch';
 
 const Main = styled.main`
   height:100vh;
+  position:relative;
   width:100%;
   margin:0;
   overflow:hidden;
@@ -34,10 +35,6 @@ const Main = styled.main`
     @media only screen and (min-width:900px) {
       font-size:7rem
     }
-  }
-
-  .home {
-    text-decoration:none;
   }
   `;
 

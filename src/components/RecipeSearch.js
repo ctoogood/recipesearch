@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
+import { RecipeContext } from '../context/index';
+
 
 const HomeSearch = styled.section`
     position:absolute;
@@ -58,11 +61,24 @@ const HomeSearch = styled.section`
 `;
 
 const RecipeSearch = () => {
+  const appContext = useContext(RecipeContext);
+  const { handleSearchChange, handleFormSubmit, searchTerm } = appContext;
+
+  const history = useHistory();
+
+
+  const handleSubmit = (e) => {
+    handleFormSubmit(e);
+    if (searchTerm !== '') {
+      history.push(`/query/${searchTerm}`);
+    }
+  };
+
   return (
     <HomeSearch>
-      <form id="form">
+      <form id="form" onSubmit={(e) => handleSubmit(e)}>
         <div className="search__input">
-          <input type="text" id="search" placeholder="Search for a recipe..." autoComplete="off" />
+          <input onChange={(e) => handleSearchChange(e)} type="text" id="search" placeholder="Search for a recipe..." autoComplete="off" />
           <button type="submit">
             Search
           </button>
