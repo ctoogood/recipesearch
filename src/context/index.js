@@ -18,12 +18,12 @@ const RecipeProvider = (props) => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setUrl(`https://api.spoonacular.com/recipes/search?apiKey=${apiKey}&number=${pageSize}&query=${searchTerm}`);
-    document.getElementById('form').reset();
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log(url);
         setLoading(true);
         const recipeSearch = await fetch(url);
         const recipeSearchResults = await recipeSearch.json();
