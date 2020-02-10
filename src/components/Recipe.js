@@ -60,7 +60,6 @@ const Recipe = ({ recipe }) => {
   const imageSize = '556x370';
   return (
     <RecipeDisplay>
-      {console.log(recipe)}
       <Link to={`/recipe/${recipe.id}`}>
         <div className="recipe__image">
           <h1>{recipe.title}</h1>

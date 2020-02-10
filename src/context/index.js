@@ -1,4 +1,7 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
 import React, { useState, useEffect } from 'react';
+
 
 const RecipeContext = React.createContext();
 
@@ -8,6 +11,7 @@ const RecipeProvider = (props) => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [usedSearch, setUsedSearch] = useState('');
   const [url, setUrl] = useState('');
 
 
@@ -17,19 +21,28 @@ const RecipeProvider = (props) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    setUrl(`https://api.spoonacular.com/recipes/search?apiKey=${apiKey}&number=${pageSize}&query=${searchTerm}`);
+    if (searchTerm !== '') {
+      setUsedSearch(searchTerm);
+    }
+    const cachedHits = localStorage.getItem(searchTerm);
+    if (cachedHits) {
+      setRecipes(JSON.parse(cachedHits));
+      console.log(cachedHits);
+    } else {
+      setUrl(`https://api.spoonacular.com/recipes/search?apiKey=${apiKey}&number=${pageSize}&query=${searchTerm}`);
+    }
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(url);
         setLoading(true);
         const recipeSearch = await fetch(url);
         const recipeSearchResults = await recipeSearch.json();
+        localStorage.setItem(usedSearch, JSON.stringify(recipeSearchResults));
         setRecipes(recipeSearchResults.results);
         setLoading(false);
-        console.log(url);
+        console.log(recipes);
       } catch (e) {
         console.log(e);
       }
@@ -37,7 +50,7 @@ const RecipeProvider = (props) => {
     if (url !== '') {
       fetchData();
     }
-  }, [url]);
+  }, [url, usedSearch]);
 
 
   return (

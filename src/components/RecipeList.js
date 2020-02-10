@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useContext } from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
 import { RecipeContext } from '../context/index';
 import Header from './Header';
 import Recipe from './Recipe';
