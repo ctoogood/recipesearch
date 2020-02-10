@@ -36,12 +36,20 @@ const Main = styled.main`
       font-size:7rem
     }
   }
+
+  div {
+    position:absolute;
+    left:50%;
+    transform:translate(-50%,0);
+  }
   `;
 
 const Home = () => (
   <Main>
     <h1>A Pinch Of Salt...</h1>
-    <RecipeSearch />
+    <div>
+      <RecipeSearch />
+    </div>
   </Main>
 );
 

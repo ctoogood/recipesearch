@@ -5,30 +5,23 @@ import { RecipeContext } from '../context/index';
 
 
 const HomeSearch = styled.section`
-    position:absolute;
-    left:50%;
-    transform:translate(-50%,0);
-
+  position:relative; 
+  max-width:100%; 
+  section {
+    
+  }
+  
   .search__input {
     display:flex;
     margin:auto;
+    justify-content:center;
 
-    @media only screen and (min-width:600px) {
-      max-width:35rem;
-      width:90vw;
 
-      input {
-        width:80%;
-      }
-
-      button {
-        width:20%;
-        font-size:1.2rem;
-      }
-    }
+   
 
     input {
       margin:0;
+      min-width:35vw;
       padding:0.5rem;
       border:none;
       background:#FAFAFA;
@@ -76,14 +69,16 @@ const RecipeSearch = () => {
 
   return (
     <HomeSearch>
-      <form id="form" onSubmit={(e) => handleSubmit(e)}>
-        <div className="search__input">
-          <input onChange={(e) => handleSearchChange(e)} type="text" id="search" placeholder="Search for a recipe..." autoComplete="off" />
-          <button type="submit">
-            Search
-          </button>
-        </div>
-      </form>
+      <section>
+        <form id="form" onSubmit={(e) => handleSubmit(e)}>
+          <div className="search__input">
+            <input onChange={(e) => handleSearchChange(e)} type="text" id="search" placeholder="Search for a recipe..." autoComplete="off" />
+            <button type="submit">
+              Search
+            </button>
+          </div>
+        </form>
+      </section>
     </HomeSearch>
   );
 };
