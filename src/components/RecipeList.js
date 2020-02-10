@@ -51,7 +51,7 @@ const RecipeList = () => {
       {loading ? <Loading>Loading...</Loading>
         : recipes.length > 0 ? (
           <List>
-            {recipes.map((recipe) => <Recipe recipe={recipe.recipe} key='' />)}
+            {recipes.map((recipe) => <Recipe recipe={recipe} key={recipe.id} />)}
           </List>
         ) : <Loading className="loading">No Results, Try Again..</Loading> }
 

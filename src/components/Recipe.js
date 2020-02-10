@@ -57,12 +57,14 @@ const RecipeDisplay = styled.section`
 
 
 const Recipe = ({ recipe }) => {
+  const imageSize = '556x370';
   return (
     <RecipeDisplay>
-      <Link to={`/${recipe.id}`}>
+      {console.log(recipe)}
+      <Link to={`/recipe/${recipe.id}`}>
         <div className="recipe__image">
-          <h1>{recipe.label}</h1>
-          <img src={recipe.image} alt={recipe.label} />
+          <h1>{recipe.title}</h1>
+          <img src={`https://spoonacular.com/recipeImages/${recipe.id}-${imageSize}.jpg`} alt={recipe.title} />
         </div>
       </Link>
     </RecipeDisplay>
@@ -73,7 +75,7 @@ export default Recipe;
 
 Recipe.propTypes = {
   recipe: PropTypes.shape({
-    label: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     image: PropTypes.string,
     id: PropTypes.number.isRequired,
     spoonacularSourceUrl: PropTypes.string,
