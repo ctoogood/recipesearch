@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { useState, useEffect } from 'react';
+import usePersistedState from '../utils/usePersistedState';
 
 
 const RecipeContext = React.createContext();
@@ -10,8 +11,7 @@ const RecipeProvider = (props) => {
   const apiKey = process.env.REACT_APP_RECIPE_API_KEY;
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [usedSearch, setUsedSearch] = useState('');
+  const [searchTerm, setSearchTerm] = usePersistedState('searchTerm', '');
   const [url, setUrl] = useState('');
 
 
@@ -21,8 +21,8 @@ const RecipeProvider = (props) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (searchTerm !== '') {
-      setUsedSearch(searchTerm);
+    if (searchTerm === '') {
+      return;
     }
     const cachedHits = localStorage.getItem(searchTerm);
     if (cachedHits) {
@@ -36,13 +36,13 @@ const RecipeProvider = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log(url);
         setLoading(true);
         const recipeSearch = await fetch(url);
         const recipeSearchResults = await recipeSearch.json();
-        localStorage.setItem(usedSearch, JSON.stringify(recipeSearchResults));
+        localStorage.setItem(searchTerm, JSON.stringify(recipeSearchResults.results));
         setRecipes(recipeSearchResults.results);
         setLoading(false);
-        console.log(recipes);
       } catch (e) {
         console.log(e);
       }
@@ -50,7 +50,7 @@ const RecipeProvider = (props) => {
     if (url !== '') {
       fetchData();
     }
-  }, [url, usedSearch]);
+  }, [url]);
 
 
   return (
