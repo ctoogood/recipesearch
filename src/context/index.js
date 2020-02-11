@@ -24,6 +24,7 @@ const RecipeProvider = (props) => {
     e.preventDefault();
     setSearchTerm(query);
     setOffset(0);
+    document.getElementById('form').reset();
   };
 
   const handleReturnHome = () => {
@@ -31,9 +32,7 @@ const RecipeProvider = (props) => {
   };
 
   const handleScroll = () => {
-    setIsFetching(true);
     setOffset(recipes.length);
-    console.log(offset);
   };
 
   useEffect(() => {
@@ -43,6 +42,7 @@ const RecipeProvider = (props) => {
         console.log('from url');
         const recipeSearch = await fetch(url);
         const recipeSearchResults = await recipeSearch.json();
+        console.log(recipeSearchResults);
         localStorage.setItem(searchTerm, JSON.stringify(recipeSearchResults.results));
         setRecipes(recipeSearchResults.results);
         setLoading(false);
@@ -51,14 +51,13 @@ const RecipeProvider = (props) => {
       }
     };
     const cachedHits = localStorage.getItem(searchTerm);
+    setOffset(0);
     if (cachedHits) {
-      console.log(offset);
       setLoading(true);
       console.log('from cache');
       setRecipes(JSON.parse(cachedHits));
       setLoading(false);
     } else {
-      console.log(offset);
       fetchData();
     }
   }, [searchTerm, url]);
@@ -71,11 +70,13 @@ const RecipeProvider = (props) => {
         const recipeResults = await searchedRecipeData.json();
         // eslint-disable-next-line no-shadow
         recipeResults.results.forEach((recipe) => setRecipes((recipes) => [...recipes, recipe]));
+        setIsFetching(false);
       } catch (e) {
         console.log(e);
       }
     };
     if (offset >= pageSize) {
+      setIsFetching(true);
       fetchMoreRecipes();
     }
   }, [offset, url]);
