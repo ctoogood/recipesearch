@@ -55,15 +55,15 @@ const HomeSearch = styled.section`
 
 const RecipeSearch = () => {
   const appContext = useContext(RecipeContext);
-  const { handleSearchChange, handleFormSubmit, searchTerm } = appContext;
+  const { handleSearchChange, handleFormSubmit, query } = appContext;
 
   const history = useHistory();
 
 
   const handleSubmit = (e) => {
-    handleFormSubmit(e);
-    if (searchTerm !== '') {
-      history.push(`/query/${searchTerm}`);
+    if (query !== '') {
+      handleFormSubmit(e);
+      history.push(`/query/${query}`);
     }
   };
 
