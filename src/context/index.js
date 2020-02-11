@@ -16,7 +16,6 @@ const RecipeProvider = (props) => {
 
   const handleSearchChange = (e) => {
     setQuery(e.target.value);
-    console.log(query);
   };
 
   const handleFormSubmit = (e) => {
@@ -49,6 +48,7 @@ const RecipeProvider = (props) => {
   return (
     <RecipeContext.Provider value={{
       recipes,
+      query,
       loading,
       searchTerm,
       handleSearchChange,

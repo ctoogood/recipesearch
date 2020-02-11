@@ -63,14 +63,9 @@ const RecipeSearch = () => {
   const handleSubmit = (e) => {
     if (query !== '') {
       handleFormSubmit(e);
+      history.push(`/query/${query}`);
     }
   };
-
-  useEffect(() => {
-    if (searchTerm !== '') {
-      history.push(`/query/${searchTerm}`);
-    }
-  }, [history, searchTerm]);
 
   return (
     <HomeSearch>
