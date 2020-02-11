@@ -16,12 +16,16 @@ const RecipeProvider = (props) => {
 
   const handleSearchChange = (e) => {
     setQuery(e.target.value);
+    console.log(query);
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setSearchTerm(query);
-    document.getElementById('form').reset();
+  };
+
+  const handleReturnHome = () => {
+    setSearchTerm('');
   };
 
   useEffect(() => {
@@ -49,6 +53,7 @@ const RecipeProvider = (props) => {
       searchTerm,
       handleSearchChange,
       handleFormSubmit,
+      handleReturnHome,
     }}
     >
       {props.children}

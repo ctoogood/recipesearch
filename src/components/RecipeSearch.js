@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { RecipeContext } from '../context/index';
@@ -55,17 +55,22 @@ const HomeSearch = styled.section`
 
 const RecipeSearch = () => {
   const appContext = useContext(RecipeContext);
-  const { handleSearchChange, handleFormSubmit, searchTerm } = appContext;
+  const { handleSearchChange, handleFormSubmit, query, searchTerm } = appContext;
 
   const history = useHistory();
 
 
   const handleSubmit = (e) => {
-    if (searchTerm !== '') {
+    if (query !== '') {
       handleFormSubmit(e);
-      history.push(`/query/${searchTerm}`);
     }
   };
+
+  useEffect(() => {
+    if (searchTerm !== '') {
+      history.push(`/query/${searchTerm}`);
+    }
+  }, [history, searchTerm]);
 
   return (
     <HomeSearch>
