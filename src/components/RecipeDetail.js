@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Overdrive from 'react-overdrive';
 import Header from './Header';
 
 const Recipe = styled.section`
@@ -14,7 +15,7 @@ const Recipe = styled.section`
   padding-bottom:2rem;
 
 
-  @media only screen and (min-width:600px) {
+  @media only screen and (min-width:800px) {
     display:grid;
     grid-template-columns: 1fr 1fr;
     grid-gap:1rem;
@@ -52,9 +53,13 @@ const Recipe = styled.section`
 
     img {
       width:100%;
-      height:100%;
       object-fit:cover;
       box-shadow:0px 3px 3px rgba(0,0,0,0.2);
+  }
+
+  .image__wrapper {
+    justify-self: center;
+
   }
 
   .recipe__details {
@@ -126,7 +131,9 @@ const RecipeDetail = () => {
       {loading ? <Loading>Loading...</Loading>
         : (
           <Recipe>
-            <img src={recipe.image} alt={recipe.title} />
+            <Overdrive className="image__wrapper" id={recipe.id}>
+              <img src={recipe.image} alt={recipe.title} />
+            </Overdrive>
             <div className="recipe__details">
               <h1>{recipe.title}</h1>
               <a href={recipe.sourceUrl} target="_blank" rel="noopener noreferrer">{recipe.sourceName}</a>
