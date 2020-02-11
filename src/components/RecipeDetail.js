@@ -2,7 +2,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Overdrive from 'react-overdrive';
 import Header from './Header';
 
 const Recipe = styled.section`
@@ -131,9 +130,9 @@ const RecipeDetail = () => {
       {loading ? <Loading>Loading...</Loading>
         : (
           <Recipe>
-            <Overdrive className="image__wrapper" id={recipe.id}>
+            <div className="image__wrapper" id={recipe.id}>
               <img src={recipe.image} alt={recipe.title} />
-            </Overdrive>
+            </div>
             <div className="recipe__details">
               <h1>{recipe.title}</h1>
               <a href={recipe.sourceUrl} target="_blank" rel="noopener noreferrer">{recipe.sourceName}</a>

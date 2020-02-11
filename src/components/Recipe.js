@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Overdrive from 'react-overdrive';
 import { Link } from 'react-router-dom';
 
 const RecipeDisplay = styled.section`
@@ -64,9 +63,9 @@ const Recipe = ({ recipe }) => {
       <Link to={`/recipe/${recipe.id}`}>
         <div className="recipe__image">
           <h1>{recipe.title}</h1>
-          <Overdrive id={recipe.id}>
+          <div id={recipe.id}>
             <img src={`https://spoonacular.com/recipeImages/${recipe.id}-${imageSize}.jpg`} alt={recipe.title} />
-          </Overdrive>
+          </div>
         </div>
       </Link>
     </RecipeDisplay>
