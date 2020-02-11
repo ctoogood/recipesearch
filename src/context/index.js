@@ -30,18 +30,26 @@ const RecipeProvider = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(url);
         setLoading(true);
+        console.log('from url');
         const recipeSearch = await fetch(url);
         const recipeSearchResults = await recipeSearch.json();
-        localStorage.setItem(searchTerm, JSON.stringify(recipeSearchResults));
+        localStorage.setItem(searchTerm, JSON.stringify(recipeSearchResults.results));
         setRecipes(recipeSearchResults.results);
         setLoading(false);
       } catch (e) {
         console.log(e);
       }
     };
-    fetchData();
+    const cachedHits = localStorage.getItem(searchTerm);
+    if (cachedHits) {
+      setLoading(true);
+      console.log('from cache');
+      setRecipes(JSON.parse(cachedHits));
+      setLoading(false);
+    } else {
+      fetchData();
+    }
   }, [searchTerm, url]);
 
 
