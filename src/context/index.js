@@ -43,7 +43,7 @@ const RecipeProvider = (props) => {
       }
     };
     fetchData();
-  }, [searchTerm, url]);
+  }, [searchTerm]);
 
 
   return (
