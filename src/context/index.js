@@ -23,6 +23,7 @@ const RecipeProvider = (props) => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setSearchTerm(query);
+    setOffset(0);
   };
 
   const handleReturnHome = () => {
@@ -50,13 +51,14 @@ const RecipeProvider = (props) => {
       }
     };
     const cachedHits = localStorage.getItem(searchTerm);
-    setOffset(0);
     if (cachedHits) {
+      console.log(offset);
       setLoading(true);
       console.log('from cache');
       setRecipes(JSON.parse(cachedHits));
       setLoading(false);
     } else {
+      console.log(offset);
       fetchData();
     }
   }, [searchTerm, url]);
