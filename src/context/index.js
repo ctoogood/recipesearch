@@ -7,7 +7,9 @@ const RecipeProvider = (props) => {
   const pageSize = 12;
   const apiKey = process.env.REACT_APP_RECIPE_API_KEY;
   const [recipes, setRecipes] = useState([]);
+  const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
   const [searchTerm, setSearchTerm] = usePersistedState('searchTerm', '');
   const [query, setQuery] = useState('');
 
@@ -27,6 +29,12 @@ const RecipeProvider = (props) => {
     setSearchTerm('');
   };
 
+  const handleScroll = () => {
+    setIsFetching(true);
+    setOffset(recipes.length);
+    console.log(offset);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,6 +50,7 @@ const RecipeProvider = (props) => {
       }
     };
     const cachedHits = localStorage.getItem(searchTerm);
+    setOffset(0);
     if (cachedHits) {
       setLoading(true);
       console.log('from cache');
@@ -52,16 +61,35 @@ const RecipeProvider = (props) => {
     }
   }, [searchTerm, url]);
 
+  useEffect(() => {
+    const fetchMoreRecipes = async () => {
+      try {
+        console.log('fetching more');
+        const searchedRecipeData = await fetch(`${url}&offset=${offset}`);
+        const recipeResults = await searchedRecipeData.json();
+        // eslint-disable-next-line no-shadow
+        recipeResults.results.forEach((recipe) => setRecipes((recipes) => [...recipes, recipe]));
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    if (offset >= pageSize) {
+      fetchMoreRecipes();
+    }
+  }, [offset, url]);
+
 
   return (
     <RecipeContext.Provider value={{
       recipes,
       query,
       loading,
+      isFetching,
       searchTerm,
       handleSearchChange,
       handleFormSubmit,
       handleReturnHome,
+      handleScroll,
     }}
     >
       {props.children}

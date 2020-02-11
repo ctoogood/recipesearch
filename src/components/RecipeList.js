@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
+import debounce from 'lodash.debounce';
 import { RecipeContext } from '../context/index';
 import Header from './Header';
 import Recipe from './Recipe';
@@ -42,9 +43,29 @@ const Loading = styled.h1`
     height:100vh;
 `;
 
+const Fetching = styled.h1`
+    text-align:center;
+    font-family: Third Storey;
+    color: #F83737;
+`;
+
 const RecipeList = () => {
   const appContext = useContext(RecipeContext);
-  const { recipes, loading } = appContext;
+  const { recipes, loading, handleScroll, isFetching } = appContext;
+
+  const scrollHandler = debounce(() => {
+    if (document.documentElement.scrollTop + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+      handleScroll();
+    }
+  }, 100);
+
+  useEffect(() => {
+    window.addEventListener('scroll', scrollHandler);
+    return () => {
+      window.removeEventListener('scroll', scrollHandler);
+    };
+  }, [scrollHandler]);
+
   return (
     <>
       <Header />
@@ -54,7 +75,7 @@ const RecipeList = () => {
             {recipes.map((recipe) => <Recipe recipe={recipe} key={recipe.id} />)}
           </List>
         ) : <Loading className="loading">No Results, Try Again..</Loading> }
-
+      {isFetching && <Fetching>Finding more recipes...</Fetching>}
     </>
   );
 };
