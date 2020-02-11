@@ -11,6 +11,7 @@ const HeaderSection = styled.header`
   overflow:hidden;
   background-color: #FF5D5D;
   box-shadow:0px 3px 3px rgba(0,0,0,0.1);
+  z-index:5;
 
   @media only screen and (min-width:480px) {
     display:grid;
