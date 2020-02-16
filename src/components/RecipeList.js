@@ -51,7 +51,9 @@ const Fetching = styled.h1`
 
 const RecipeList = () => {
   const appContext = useContext(RecipeContext);
-  const { recipes, loading, handleScroll, isFetching } = appContext;
+  const {
+    recipes, loading, handleScroll, isFetching
+  } = appContext;
 
   const scrollHandler = debounce(() => {
     if (document.documentElement.scrollTop + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {

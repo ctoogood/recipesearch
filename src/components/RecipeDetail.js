@@ -120,9 +120,15 @@ const RecipeDetail = () => {
       console.log(e);
     }
   }, [url]);
+
   useEffect(() => {
     fetchRecipe();
   }, [fetchRecipe]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const { extendedIngredients } = recipe;
   return (
     <>
@@ -146,7 +152,7 @@ const RecipeDetail = () => {
             <div className="recipe__ingredients">
               <h2>Ingredients</h2>
               <ul>
-                {extendedIngredients.map((ingredient) => <li>{ingredient.original}</li>)}
+                {extendedIngredients.map((ingredient) => <li key={ingredient.id}>{ingredient.original}</li>)}
               </ul>
             </div>
             <div className="recipe__method">

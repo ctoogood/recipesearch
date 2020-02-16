@@ -39,10 +39,8 @@ const RecipeProvider = (props) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        console.log('from url');
         const recipeSearch = await fetch(url);
         const recipeSearchResults = await recipeSearch.json();
-        console.log(recipeSearchResults);
         localStorage.setItem(searchTerm, JSON.stringify(recipeSearchResults.results));
         setRecipes(recipeSearchResults.results);
         setLoading(false);
@@ -54,7 +52,6 @@ const RecipeProvider = (props) => {
     setOffset(0);
     if (cachedHits) {
       setLoading(true);
-      console.log('from cache');
       setRecipes(JSON.parse(cachedHits));
       setLoading(false);
     } else {
@@ -65,7 +62,6 @@ const RecipeProvider = (props) => {
   useEffect(() => {
     const fetchMoreRecipes = async () => {
       try {
-        console.log('fetching more');
         const searchedRecipeData = await fetch(`${url}&offset=${offset}`);
         const recipeResults = await searchedRecipeData.json();
         // eslint-disable-next-line no-shadow
