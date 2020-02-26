@@ -22,7 +22,7 @@ const Main = styled.main`
   overflow:hidden;
   border-bottom: 2rem solid #FF5D5D;
 
-  button {
+  .home__list-button {
     position:absolute;
     top:0;
     right:0;
@@ -91,7 +91,7 @@ const Home = () => {
   };
   return (
     <Main>
-      <button type="button" onClick={listButtonHandler}>
+      <button className="home__list-button" type="button" onClick={listButtonHandler}>
         <ListIcon className="home__list-icon" />
         <p>My List</p>
       </button>
