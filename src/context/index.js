@@ -87,7 +87,7 @@ const RecipeProvider = (props) => {
         const getRecipeList = async () => {
             try {
                 setLoading(true);
-                const responseData = await sendRequest('http://localhost:5000/lists/'); //Get from signed in user...
+                const responseData = await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/lists/`); //Get from signed in user...
                 setLoadedList(responseData.recipes)
                 setLoading(false);
             } catch (e) {
