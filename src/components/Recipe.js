@@ -10,9 +10,6 @@ const RecipeDisplay = styled.section`
     @media only screen and (min-width:480px) {
       margin-bottom:0;
     }
-
-    .recipe__link {
-      text-decoration:none;
       
       &:hover img {
         filter:brightness(1);
@@ -22,7 +19,6 @@ const RecipeDisplay = styled.section`
         background-color:#FF5D5D;
         border-radius:5px;
       }
-    }
 
     h1 {
         font-family: Third Storey;

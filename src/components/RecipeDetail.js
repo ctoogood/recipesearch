@@ -1,8 +1,15 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './Header';
+
+import { useHttpClient } from '../hooks/http-hook';
+import { RecipeContext } from '../context/index';
+
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+
 
 const Recipe = styled.section`
   max-width:1000px;
@@ -62,6 +69,7 @@ const Recipe = styled.section`
   }
 
   .recipe__details {
+    position:relative;
     p {
       font-size:1.2rem;
     }
@@ -79,6 +87,11 @@ const Recipe = styled.section`
       }
     }
 
+    button {
+      position:relative;
+      right:0;
+    }
+
   }
 
   .recipe__ingredients {
@@ -93,6 +106,28 @@ const Recipe = styled.section`
     margin-top:3rem;
   }
 
+  button {
+    border:none;
+    background:none;
+    cursor:pointer;
+    color:#FF5D5D;
+    
+
+    p {
+      display:inline;
+      position:relative;
+      top:-.5rem;
+    }
+
+    .recipe__icon {
+    transition:all 0.3s ease-in-out;
+
+    &:hover {
+      transform:scale(1.2);
+    }
+  }
+  }
+
 
 `;
 
@@ -104,6 +139,8 @@ const Loading = styled.h1`
 `;
 
 const RecipeDetail = () => {
+  const appContext = useContext(RecipeContext);
+  const { loadedList, setLoadedList } = appContext;
   const { id } = useParams();
   const apikey = process.env.REACT_APP_RECIPE_API_KEY;
   const url = `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&apiKey=${apikey}`;
@@ -129,7 +166,53 @@ const RecipeDetail = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const { sendRequest } = useHttpClient();
+
+  const checkList = loadedList.filter(i => i.id === recipe.id);
+
+  const addRecipeHandler = async (e) => {
+    e.preventDefault();
+    if (checkList.length === 0) {
+    try {
+      await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/lists/add`, 
+      'POST',
+      JSON.stringify({
+        recipe: recipe
+      }),
+      {
+        'Content-Type': 'application/json'
+      },
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  } else {
+    try {
+      await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/lists/remove`,
+      'DELETE',
+      JSON.stringify({
+        recipe: recipe
+      }),
+      {
+        'Content-Type': 'application/json'
+      },
+      );
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  
+  try {
+    const responseData = await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/lists/`); //Get from signed in user...
+    setLoadedList(responseData.recipes)
+  } catch (e) {
+    console.log(e)
+  }
+
+}
+
   const { extendedIngredients } = recipe;
+
   return (
     <>
       <Header />
@@ -140,6 +223,9 @@ const RecipeDetail = () => {
               <img src={recipe.image} alt={recipe.title} />
             </div>
             <div className="recipe__details">
+              <form onSubmit={addRecipeHandler}>
+                {checkList.length > 0 ? <button type="submit"><p>Remove from list </p><RemoveCircleIcon className="recipe__icon" fontSize="large" /></button> : <button type="submit"><p>Add to list </p><AddCircleIcon className="recipe__icon" fontSize="large" /></button>}
+              </form>
               <h1>{recipe.title}</h1>
               <a href={recipe.sourceUrl} target="_blank" rel="noopener noreferrer">{recipe.sourceName}</a>
               <hr />

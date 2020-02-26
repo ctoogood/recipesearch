@@ -1,8 +1,11 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import RecipeSearch from './RecipeSearch';
 import { RecipeContext } from '../context/index';
+
+import ListIcon from '@material-ui/icons/List';
+
 
 const HeaderSection = styled.header`
   position:relative;
@@ -14,21 +17,20 @@ const HeaderSection = styled.header`
   z-index:5;
 
   @media only screen and (min-width:480px) {
-    display:grid;
-    grid-template-columns:3fr 1fr;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
   }
 
   h1 {
       font:2rem Third Storey;
       text-align:center;
       margin:0;
-      margin-top:1rem;
       color:white;
 
       @media only screen and (min-width:480px) {
         text-align:left;
         padding-left:1rem;
-        width:50vw;
       }
   }
 
@@ -43,6 +45,30 @@ const HeaderSection = styled.header`
       right:.5rem;
     }
   }
+
+  .header__list__button {
+    position:relative;
+    border:none;
+    background-color:transparent;
+    color:white;
+    cursor:pointer;
+    transition: 0.3s all linear;
+    width:100vw;
+    margin-bottom:1rem;
+
+    @media only screen and (min-width:480px) {
+      width:auto;
+      margin-bottom:0;
+    }
+
+    &:hover {
+      transform:scale(1.2);
+    }
+
+    .home__list-icon {
+      font-size:2rem;
+    }
+  }
 `;
 
 const Header = () => {
@@ -50,6 +76,10 @@ const Header = () => {
   const {
     handleReturnHome,
   } = appContext;
+  const history = useHistory();
+  const listButtonHandler = () => {
+      history.push('/lists/');
+  };
 
   return (
     <>
@@ -60,6 +90,10 @@ const Header = () => {
         <div>
           <RecipeSearch />
         </div>
+        <button class="header__list__button" type="button" onClick={listButtonHandler}>
+          <ListIcon className="home__list-icon" />
+        </button>
+        
       </HeaderSection>
     </>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import usePersistedState from '../utils/usePersistedState';
+import { useHttpClient } from '../hooks/http-hook';
 
 const RecipeContext = React.createContext();
 
@@ -13,8 +14,9 @@ const RecipeProvider = (props) => {
   const [searchTerm, setSearchTerm] = usePersistedState('searchTerm', '');
   const [query, setQuery] = useState('');
 
-  const url = `https://api.spoonacular.com/recipes/search?apiKey=${apiKey}&number=${pageSize}&query=${searchTerm}`;
+  // RECIPE SEARCH
 
+  const url = `https://api.spoonacular.com/recipes/search?apiKey=${apiKey}&number=${pageSize}&query=${searchTerm}`;
 
   const handleSearchChange = (e) => {
     setQuery(e.target.value);
@@ -77,6 +79,34 @@ const RecipeProvider = (props) => {
     }
   }, [offset, url]);
 
+  // User Recipe Lists
+
+    const [ loadedList, setLoadedList ] = useState([]);
+    const { sendRequest } = useHttpClient();
+    useEffect(() => {
+        const getRecipeList = async () => {
+            try {
+                setLoading(true);
+                const responseData = await sendRequest('http://localhost:5000/lists/'); //Get from signed in user...
+                setLoadedList(responseData.recipes)
+                setLoading(false);
+            } catch (e) {
+                console.log(e)
+            }
+        }
+        getRecipeList();
+    },[sendRequest])
+
+    
+
+  // Authentication
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [isLoginMode, setIsLoginMode] = useState(true);
+
+  const changeLoginHandler = () => {
+    setIsLoginMode(!isLoginMode);
+  };
 
   return (
     <RecipeContext.Provider value={{
@@ -85,10 +115,17 @@ const RecipeProvider = (props) => {
       loading,
       isFetching,
       searchTerm,
+      loggedIn,
+      isLoginMode,
+      loadedList,
+      changeLoginHandler,
       handleSearchChange,
       handleFormSubmit,
       handleReturnHome,
       handleScroll,
+      setLoggedIn,
+      setLoadedList,
+      setLoading
     }}
     >
       {props.children}
