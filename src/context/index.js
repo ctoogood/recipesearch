@@ -43,22 +43,22 @@ const RecipeProvider = (props) => {
         setLoading(true);
         const recipeSearch = await fetch(url);
         const recipeSearchResults = await recipeSearch.json();
-        localStorage.setItem(searchTerm, JSON.stringify(recipeSearchResults.results));
+        // localStorage.setItem(searchTerm, JSON.stringify(recipeSearchResults.results));
         setRecipes(recipeSearchResults.results);
         setLoading(false);
       } catch (e) {
         console.log(e);
       }
     };
-    const cachedHits = localStorage.getItem(searchTerm);
-    setOffset(0);
-    if (cachedHits) {
-      setLoading(true);
-      setRecipes(JSON.parse(cachedHits));
-      setLoading(false);
-    } else {
+    // const cachedHits = localStorage.getItem(searchTerm);
+    // setOffset(0);
+    // if (cachedHits) {
+    //   setLoading(true);
+    //   setRecipes(JSON.parse(cachedHits));
+    //   setLoading(false);
+    // } else {
       fetchData();
-    }
+    // }
   }, [searchTerm, url]);
 
   useEffect(() => {
