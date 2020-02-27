@@ -1,4 +1,4 @@
-# A Pinch Of Salt
+# [A Pinch Of Salt](https://priceless-thompson-b50611.netlify.com/)
 ## Recipe Search Engine
 Built to practice using React and then developed into a fullstack MERN app.  The backend allows recipes to be saved to a list.
 
